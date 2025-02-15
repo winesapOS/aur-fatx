@@ -2,27 +2,30 @@
 # Contributor: Bakasura <bakasura[at]protonmail[dot]ch>
 
 pkgname=fatx
-pkgver=1.17
-pkgrel=4
-pkgdesc="XBox filesystem support for linux"
-arch=('any')
-url="http://sourceforge.net/projects/fatx/"
+pkgver=1.18
+_tag=17d7403f0b23fa43cd71e90cf22273ae7f53c9db
+pkgrel=1
+pkgdesc='XBox filesystem support for linux'
+arch=('i686' 'pentium4' 'armv7h' 'aarch64' 'x86_64')
+url='http://sourceforge.net/projects/fatx/'
 license=('GPL')
 provides=($pkgname)
+depends=('fuse' 'boost-libs')
 makedepends=('boost' 'cmake' 'doxygen' 'graphviz')
-depends=('fuse' 'boost-libs' 'libboost_program_options.so')
-source=("http://downloads.sourceforge.net/project/fatx/${pkgname}-${pkgver}.tar.gz")
-sha256sums=('533b1a40d9fe0e7038d0ad8a461624c01cd0bc7c52a79cdc9293db0fcc1b4e25')
+source=("git+https://git.code.sf.net/p/fatx/code#tag=$_tag"
+    'fatx.patch')
+sha256sums=('SKIP'
+    'SKIP')
 
 build() {
-    sed -i 's/SBIN/BIN/g' "${srcdir}/CMakeLists.txt"
-    sed -i 's/sbin/bin/g' "${srcdir}/CMakeLists.txt"
-    sed -i 's/format(/boost\:\:format(/g' "${srcdir}/src/fatx.cpp"
-    sed -i '184,927s/format(/boost\:\:format(/' "${srcdir}/src/fatx.hpp"
-    cmake -B build -S "$srcdir" -DCMAKE_BUILD_TYPE='None' -DCMAKE_INSTALL_PREFIX='/usr' -Wno-dev
-    cmake --build build
+    patch -p0 -d "${srcdir}"/code <"${srcdir}"/fatx.patch
+    mkdir -p "${srcdir}"/code/build
+    cd "${srcdir}"/code/build
+    cmake ../ -DCMAKE_INSTALL_PREFIX:PATH=/usr
+    make
 }
 
 package() {
-    DESTDIR="$pkgdir" cmake --install build
+    cd "${srcdir}"/code/build
+    make DESTDIR="$pkgdir" install
 }
