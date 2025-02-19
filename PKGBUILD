@@ -1,6 +1,3 @@
-# Maintainer: t3kk3n <corp[at]hush[dot]ai>
-# Contributor: Bakasura <bakasura[at]protonmail[dot]ch>
-
 pkgname=fatx
 pkgver=1.18
 _tag=17d7403f0b23fa43cd71e90cf22273ae7f53c9db
@@ -10,8 +7,8 @@ arch=('i686' 'pentium4' 'armv7h' 'aarch64' 'x86_64')
 url='http://sourceforge.net/projects/fatx/'
 license=('GPL')
 provides=($pkgname)
-depends=('fuse' 'boost-libs')
-makedepends=('boost' 'cmake' 'doxygen' 'graphviz')
+depends=('fuse')
+makedepends=('boost' 'boost-libs' 'doxygen')
 source=("git+https://git.code.sf.net/p/fatx/code#tag=$_tag"
     'fatx.patch')
 sha256sums=('SKIP'
