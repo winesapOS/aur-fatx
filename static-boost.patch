@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5aa9f4c..915fe9e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -24,6 +24,8 @@ set(FATX_DBGCR 48 CACHE STRING "Bytes per debug line for DBGCR (Debug builds)")
+ 
+ include(CTest)
+ 
++set(Boost_USE_STATIC_LIBS ON)
++
+ find_package(
+   Boost 1.65.0
+   COMPONENTS program_options
